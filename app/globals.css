@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
+  --font-display: var(--font-cormorant), "Cormorant Garamond", "Times New Roman", serif;
+}
+
+:root {
+  --solidez: #46353e;
+  --equilibrio: #f0f0ef;
+  --confianza: #b2acbd;
+  --modernidad: #31312e;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--equilibrio);
+  color: var(--modernidad);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Thin brand-tinted divider used throughout the site */
+.hairline {
+  border-color: #46353e26;
+}
+
+/* Entrance animation for the hero */
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards fadeUp;
+}
+
+.fade-up-delay-1 {
+  animation-delay: 0.15s;
+}
+
+.fade-up-delay-2 {
+  animation-delay: 0.3s;
+}
+
+/* Infinite horizontal marquee (charlas, logos, testimonios) */
+@keyframes marquee {
+  0% {
+    transform: translate(0);
+  }
+  100% {
+    transform: translate(-50%);
+  }
+}
+
+.marquee-track {
+  animation: 40s linear infinite marquee;
+}
