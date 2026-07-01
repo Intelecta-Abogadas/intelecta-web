@@ -162,6 +162,11 @@ export default function Home() {
             </div>
             <div className="lg:col-span-5 fade-up fade-up-delay-2">
               <div className="relative">
+                {/* accent frame — solid block offset to the top-right behind the photo */}
+                <div
+                  className="absolute inset-0 translate-x-4 -translate-y-4 sm:translate-x-5 sm:-translate-y-5 bg-[#47353E]"
+                  aria-hidden="true"
+                />
                 <img
                   src={`${BASE}/assets/oficina.jpg`}
                   alt="Oficina Intelecta Abogadas"
@@ -338,38 +343,52 @@ export default function Home() {
         </section>
 
         {/* POR QUÉ ELEGIRNOS */}
-        <section className="relative overflow-hidden py-28 lg:py-36 lg:min-h-[880px] bg-[color:var(--solidez)] text-[color:var(--equilibrio)]">
-          {/* Decorative stamp treatment (desktop): the photo and its cutout are
-              rendered at the exact same size/position so the crisp stamp registers
-              pixel-for-pixel over the photo. The plum color fades in between them. */}
-          <div className="hidden lg:block" aria-hidden="true">
-            {/* full photo — tinted paper, imprint and real cast shadow */}
+        <section className="relative overflow-hidden py-28 lg:py-36 lg:min-h-[820px] bg-[color:var(--solidez)] text-[color:var(--equilibrio)]">
+          {/* Decorative stamp treatment (desktop): the photo and its crisp cutout are
+              rendered at the exact same size/position so the stamp registers
+              pixel-for-pixel over the photo. The photo melts into the plum through an
+              organic (non-circular) blob mask; the cutout stays crisp on top. */}
+          <div
+            className="hidden lg:block pointer-events-none absolute bottom-0 left-0 w-[30%] max-w-[380px] min-w-[260px] aspect-square"
+            aria-hidden="true"
+          >
+            {/* full photo — paper, imprint and real cast shadow — faded via blob mask */}
             <img
               src={`${BASE}/assets/stamp.jpg`}
               alt=""
-              className="pointer-events-none select-none absolute bottom-0 left-0 w-[46%] max-w-[560px] min-w-[300px]"
+              className="select-none absolute inset-0 h-full w-full object-cover"
               style={{
-                WebkitMaskImage:
-                  "radial-gradient(82% 84% at 8% 95%, #000 0%, #000 44%, transparent 76%)",
-                maskImage:
-                  "radial-gradient(82% 84% at 8% 95%, #000 0%, #000 44%, transparent 76%)",
+                WebkitMaskImage: `url(${BASE}/assets/stamp-mask.png)`,
+                maskImage: `url(${BASE}/assets/stamp-mask.png)`,
+                WebkitMaskSize: "100% 100%",
+                maskSize: "100% 100%",
+                WebkitMaskRepeat: "no-repeat",
+                maskRepeat: "no-repeat",
               }}
             />
-            {/* brand color fading into the image */}
+            {/* subtle plum wash near the top edge so the stamp head blends toward the
+                text; fades out before the imprint so it stays fully legible */}
             <div
-              className="pointer-events-none absolute inset-0"
+              className="absolute inset-0"
               style={{
                 background:
-                  "radial-gradient(72% 78% at 6% 94%, rgba(70,53,62,0.12) 0%, rgba(70,53,62,0.36) 34%, rgba(70,53,62,0.80) 60%, rgba(70,53,62,0.97) 82%)",
+                  "linear-gradient(to bottom, rgba(70,53,62,0.45) 0%, rgba(70,53,62,0) 42%)",
+                WebkitMaskImage: `url(${BASE}/assets/stamp-mask.png)`,
+                maskImage: `url(${BASE}/assets/stamp-mask.png)`,
+                WebkitMaskSize: "100% 100%",
+                maskSize: "100% 100%",
+                WebkitMaskRepeat: "no-repeat",
+                maskRepeat: "no-repeat",
               }}
             />
-            {/* crisp stamp on top of the fade */}
-            <img
-              src={`${BASE}/assets/stamp-cutout.png`}
-              alt="Sello de Intelecta Abogadas"
-              className="pointer-events-none select-none absolute bottom-0 left-0 w-[46%] max-w-[560px] min-w-[300px] drop-shadow-[0_16px_28px_rgba(0,0,0,0.35)]"
-            />
           </div>
+          {/* crisp stamp on top of the fade — same box/size as the photo above */}
+          <img
+            src={`${BASE}/assets/stamp-cutout.png`}
+            alt="Sello de Intelecta Abogadas"
+            aria-hidden="true"
+            className="hidden lg:block pointer-events-none select-none absolute bottom-0 left-0 w-[30%] max-w-[380px] min-w-[260px] drop-shadow-[0_16px_28px_rgba(0,0,0,0.35)]"
+          />
 
           <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-2 gap-16 items-start">
             <div>
@@ -384,12 +403,32 @@ export default function Home() {
                 soluciones integrales que protegen el valor de las marcas, empresas y proyectos de
                 nuestros clientes.
               </p>
-              {/* mobile stamp (the desktop treatment is the absolute layers above) */}
-              <img
-                src={`${BASE}/assets/stamp-cutout.png`}
-                alt="Sello de Intelecta Abogadas"
-                className="lg:hidden mt-12 w-60 drop-shadow-[0_16px_28px_rgba(0,0,0,0.4)]"
-              />
+              {/* mobile stamp — the actual photo, faded into the plum through the
+                  organic blob mask (kept compact so it doesn't dominate scroll) */}
+              <div
+                className="lg:hidden relative mt-10 -mx-6 aspect-[5/4] overflow-hidden"
+                aria-hidden="true"
+              >
+                <img
+                  src={`${BASE}/assets/stamp.jpg`}
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-cover object-[center_38%]"
+                  style={{
+                    WebkitMaskImage: `url(${BASE}/assets/stamp-mask-mobile.png)`,
+                    maskImage: `url(${BASE}/assets/stamp-mask-mobile.png)`,
+                    WebkitMaskSize: "100% 100%",
+                    maskSize: "100% 100%",
+                    WebkitMaskRepeat: "no-repeat",
+                    maskRepeat: "no-repeat",
+                  }}
+                />
+                {/* crisp stamp on top — same framing so it registers over the photo */}
+                <img
+                  src={`${BASE}/assets/stamp-cutout.png`}
+                  alt="Sello de Intelecta Abogadas"
+                  className="absolute inset-0 h-full w-full object-cover object-[center_38%]"
+                />
+              </div>
             </div>
             <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-6">
               {WHY.map((item, i) => (

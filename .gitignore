@@ -8,3 +8,6 @@ npm-debug.log*
 .env*
 !.env.example
 next-env.d.ts
+
+# local screenshot/scratch scripts
+.tmp/

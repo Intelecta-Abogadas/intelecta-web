@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(curl -sL \"https://intelecta-legaltech-hub.lovable.app/\" -o index.html)"
+      "Bash(curl -sL \"https://intelecta-legaltech-hub.lovable.app/\" -o index.html)",
+      "Bash(dig +short intelectaabogadas.com.ar A)",
+      "Bash(dig +short intelectaabogadas.com.ar AAAA)",
+      "Bash(dig +short www.intelectaabogadas.com.ar CNAME)",
+      "Bash(dig +short www.intelectaabogadas.com.ar A)",
+      "Bash(dig +short intelectaabogadas.com.ar NS)"
     ]
   }
 }
