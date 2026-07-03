@@ -6,7 +6,7 @@ import Script from "next/script";
 // ▸ Paste your GA4 Measurement ID here (GA4 → Admin → Data Streams → Web).
 //   Until it's a real "G-XXXX" id, this component stays completely inert:
 //   no scripts load, no events fire, no cookie notice shows.
-const GA_ID = "G-XXXXXXXXXX";
+const GA_ID = "G-48BZYM6NFH";
 const ENABLED = /^G-[A-Z0-9]+$/.test(GA_ID) && !GA_ID.includes("XXXX");
 
 function track(name, params) {
