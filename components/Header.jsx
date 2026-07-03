@@ -34,8 +34,10 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-6 lg:px-10 h-20 flex items-center justify-between">
         <a href="#top" className="flex items-center gap-3">
           <img
-            src={`${BASE}/assets/isotipo.jpg`}
-            alt="Intelecta"
+            src={`${BASE}/assets/isotipo-sm.webp`}
+            alt="Intelecta Abogadas — registro de marcas y propiedad intelectual"
+            width="40"
+            height="40"
             className="h-10 w-10 object-contain"
           />
           <div className="leading-tight">

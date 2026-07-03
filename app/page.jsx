@@ -31,26 +31,26 @@ const SERVICES = [
 ];
 
 const CHARLAS = [
-  "charla-315082cc.jpg",
-  "charla-3b89eb35.jpg",
-  "charla-f44e27c6.jpg",
-  "charla-2ba38a2a.jpg",
-  "charla-1acf3046.jpg",
+  "charla-315082cc.webp",
+  "charla-3b89eb35.webp",
+  "charla-f44e27c6.webp",
+  "charla-2ba38a2a.webp",
+  "charla-1acf3046.webp",
 ];
 
 const LOGOS = [
-  "colilux.jpg",
-  "mencanta.jpg",
-  "sercamionero.jpg",
-  "dulces-besos.jpg",
-  "mjc-agropecuarios.jpg",
-  "lonera-andina.jpg",
-  "bio-didactika.jpg",
-  "manteca-bakery.jpg",
-  "don-hippo.jpg",
-  "powerlimp-new.jpg",
-  "conectar-cultura.jpg",
-  "kira-home.jpg",
+  ["colilux.webp", "Colilux"],
+  ["mencanta.webp", "Me Encanta"],
+  ["sercamionero.webp", "Ser Camionero"],
+  ["dulces-besos.webp", "Dulces Besos"],
+  ["mjc-agropecuarios.webp", "MJC Agropecuarios"],
+  ["lonera-andina.webp", "Lonera Andina"],
+  ["bio-didactika.webp", "Bio Didáctika"],
+  ["manteca-bakery.webp", "Manteca Bakery"],
+  ["don-hippo.webp", "Don Hippo"],
+  ["powerlimp-new.webp", "Powerlimp"],
+  ["conectar-cultura.webp", "Conectar Cultura"],
+  ["kira-home.webp", "Kira Home"],
 ];
 
 const WHY = [
@@ -172,8 +172,8 @@ export default function Home() {
             </div>
             <div className="lg:col-span-5 fade-up fade-up-delay-2">
               <img
-                src={`${BASE}/assets/oficina.jpg`}
-                alt="Oficina Intelecta Abogadas"
+                src={`${BASE}/assets/oficina.webp`}
+                alt="Estudio jurídico Intelecta Abogadas, especialistas en registro de marcas y propiedad intelectual en Argentina"
                 className="w-full aspect-[4/5] object-cover"
               />
             </div>
@@ -202,21 +202,24 @@ export default function Home() {
             <div className="grid md:grid-cols-2 gap-10 mt-20">
               {[
                 [
-                  "bianca.jpeg",
+                  "bianca.webp",
                   "Dra. Bianca Massarella Martinez",
                   "https://www.linkedin.com/in/bianca-massarella-martinez-5909b02a3",
+                  "Dra. Bianca Massarella Martinez, abogada especialista en propiedad intelectual y registro de marcas",
                 ],
                 [
-                  "delfina.jpeg",
+                  "delfina.webp",
                   "Dra. Delfina Alvarez",
                   "https://www.linkedin.com/in/delfinaalvarezp",
+                  "Dra. Delfina Alvarez, abogada especialista en marcas y derecho tecnológico",
                 ],
-              ].map(([img, name, link]) => (
+              ].map(([img, name, link, imgAlt]) => (
                 <article key={name} className="group">
                   <div className="relative overflow-hidden">
                     <img
                       src={`${BASE}/assets/${img}`}
-                      alt={name}
+                      alt={imgAlt}
+                      loading="lazy"
                       className="w-full aspect-[4/5] object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--solidez)]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -262,7 +265,16 @@ export default function Home() {
                   key={i}
                   className="w-[320px] sm:w-[420px] aspect-[4/5] shrink-0 overflow-hidden"
                 >
-                  <img src={`${BASE}/assets/${img}`} alt="" className="w-full h-full object-cover" />
+                  <img
+                    src={`${BASE}/assets/${img}`}
+                    alt={
+                      i < CHARLAS.length
+                        ? "Abogadas de Intelecta dando una charla sobre registro de marcas y propiedad intelectual"
+                        : ""
+                    }
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               ))}
             </div>
@@ -328,14 +340,15 @@ export default function Home() {
             </div>
             <div className="mt-14 overflow-hidden">
               <div className="flex gap-12 lg:gap-16 marquee-track w-max items-center">
-                {[...LOGOS, ...LOGOS].map((img, i) => (
+                {[...LOGOS, ...LOGOS].map(([img, name], i) => (
                   <div
                     key={i}
                     className="shrink-0 h-20 lg:h-24 w-40 lg:w-48 flex items-center justify-center"
                   >
                     <img
                       src={`${BASE}/assets/${img}`}
-                      alt=""
+                      alt={i < LOGOS.length ? `Logo de ${name}, marca registrada con Intelecta Abogadas` : ""}
+                      loading="lazy"
                       className="max-h-full max-w-full object-contain grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition-all duration-500"
                     />
                   </div>
@@ -362,8 +375,9 @@ export default function Home() {
               </p>
               {/* sello — the new stamp photo, plain square */}
               <img
-                src={`${BASE}/assets/stamp.jpg`}
-                alt="Sello de Intelecta Abogadas"
+                src={`${BASE}/assets/stamp.webp`}
+                alt="Sello de Intelecta Abogadas, estudio especializado en registro de marcas"
+                loading="lazy"
                 className="mt-10 w-full max-w-[320px] aspect-square object-cover"
               />
             </div>
@@ -502,7 +516,12 @@ export default function Home() {
         <section className="py-28 lg:py-36 bg-[color:var(--equilibrio)]">
           <div className="max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-5">
-              <img src={`${BASE}/assets/isotipo.jpg`} alt="" className="w-full max-w-sm mx-auto" />
+              <img
+                src={`${BASE}/assets/isotipo.webp`}
+                alt="Isotipo de Intelecta Abogadas"
+                loading="lazy"
+                className="w-full max-w-sm mx-auto"
+              />
             </div>
             <div className="lg:col-span-7">
               <div className="max-w-3xl">

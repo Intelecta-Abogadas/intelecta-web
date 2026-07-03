@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://intelectaabogadas.com.ar/sitemap.xml
