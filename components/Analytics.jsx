@@ -1,23 +1,37 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Script from "next/script";
 
-// ▸ Paste your GA4 Measurement ID here (GA4 → Admin → Data Streams → Web).
-//   Until it's a real "G-XXXX" id, this component stays completely inert:
-//   no scripts load, no events fire, no cookie notice shows.
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
+// ▸ GA4 Measurement ID (GA4 → Admin → Data Streams → Web).
 const GA_ID = "G-48BZYM6NFH";
-const ENABLED = /^G-[A-Z0-9]+$/.test(GA_ID) && !GA_ID.includes("XXXX");
+const HAS_ID = /^G-[A-Z0-9]+$/.test(GA_ID) && !GA_ID.includes("XXXX");
+
+const STORAGE_KEY = "cookie-consent"; // "granted" | "denied"
 
 function track(name, params) {
   window.gtag?.("event", name, params);
 }
 
 export default function Analytics() {
-  useEffect(() => {
-    if (!ENABLED) return;
+  // null = undecided (show banner). Read from storage after mount to avoid SSR flash.
+  const [consent, setConsent] = useState(null);
+  const [ready, setReady] = useState(false);
 
-    // --- scroll depth: 25 / 50 / 75 / 100 % ---
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved === "granted" || saved === "denied") setConsent(saved);
+    } catch {}
+    setReady(true);
+  }, []);
+
+  // Event listeners only run once consent is granted.
+  useEffect(() => {
+    if (consent !== "granted") return;
+
     const thresholds = [25, 50, 75, 100];
     const fired = new Set();
     const onScroll = () => {
@@ -31,7 +45,6 @@ export default function Analytics() {
       }
     };
 
-    // --- delegated CTA click tracking (covers every WhatsApp/CTA link) ---
     const onClick = (e) => {
       const el = e.target.closest("a, button");
       if (!el) return;
@@ -57,24 +70,69 @@ export default function Analytics() {
       window.removeEventListener("scroll", onScroll);
       document.removeEventListener("click", onClick);
     };
-  }, []);
+  }, [consent]);
 
-  if (!ENABLED) return null;
+  const decide = (value) => {
+    try {
+      localStorage.setItem(STORAGE_KEY, value);
+    } catch {}
+    setConsent(value);
+  };
+
+  const gaActive = HAS_ID && consent === "granted";
 
   return (
     <>
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-        strategy="afterInteractive"
-      />
-      <Script id="ga4-init" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', '${GA_ID}');
-        `}
-      </Script>
+      {/* GA4 loads ONLY after explicit consent — rejecting means it never loads. */}
+      {gaActive && (
+        <>
+          <Script
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+            strategy="afterInteractive"
+          />
+          <Script id="ga4-init" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GA_ID}');
+            `}
+          </Script>
+        </>
+      )}
+
+      {/* Consent banner — shown until the visitor chooses. */}
+      {ready && HAS_ID && consent === null && (
+        <div className="fixed inset-x-0 bottom-0 z-[60] p-4 sm:p-5">
+          <div className="mx-auto max-w-3xl bg-[color:var(--solidez)] text-[color:var(--equilibrio)] border border-[color:var(--equilibrio)]/15 shadow-xl px-5 py-4 sm:px-7 sm:py-5 flex flex-col sm:flex-row sm:items-center gap-4">
+            <p className="text-sm leading-relaxed text-[color:var(--equilibrio)]/85 flex-1">
+              Usamos cookies para medir de forma anónima el uso del sitio y mejorar tu
+              experiencia. Podés aceptarlas o rechazarlas.{" "}
+              <a
+                href={`${BASE}/privacidad/`}
+                className="underline underline-offset-2 hover:text-[color:var(--confianza)]"
+              >
+                Política de privacidad
+              </a>
+              .
+            </p>
+            <div className="flex gap-3 shrink-0">
+              <button
+                onClick={() => decide("denied")}
+                className="px-5 py-2.5 text-sm border border-[color:var(--equilibrio)]/40 text-[color:var(--equilibrio)] hover:bg-[color:var(--equilibrio)]/10 transition-colors"
+              >
+                Rechazar
+              </button>
+              <button
+                onClick={() => decide("granted")}
+                className="px-5 py-2.5 text-sm bg-[color:var(--equilibrio)] text-[color:var(--solidez)] hover:bg-[color:var(--confianza)] transition-colors"
+              >
+                Aceptar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
