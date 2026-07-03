@@ -5,6 +5,16 @@ import ProgramAccordion from "../components/ProgramAccordion";
 // (set via NEXT_PUBLIC_BASE_PATH in the deploy workflow).
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
+function WhatsappGlyph({ size = 22, className }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor" className={className}>
+      <path d="M20.52 3.48A11.93 11.93 0 0 0 12.04 0C5.48 0 .15 5.33.15 11.9c0 2.1.55 4.15 1.6 5.96L0 24l6.32-1.66a11.86 11.86 0 0 0 5.72 1.46h.01c6.56 0 11.9-5.33 11.9-11.9 0-3.18-1.24-6.17-3.43-8.42zM12.05 21.8h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.75.98 1-3.66-.24-.38a9.86 9.86 0 1 1 18.3-5.25c0 5.45-4.45 9.9-9.91 9.9zm5.43-7.41c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15s-.77.97-.94 1.17c-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.22 3.08.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z" />
+    </svg>
+  );
+}
+
+const CONTACT_PERKS = ["Consulta inicial", "Sin formularios", "Respuesta rápida"];
+
 const SERVICES = [
   ["01", "Registro de Marcas", "Gestionamos el registro de tu marca ante el INPI para asegurar su titularidad y evitar conflictos futuros."],
   ["02", "Custodia y Vigilancia de Marcas", "Monitoreamos solicitudes de terceros que puedan afectar tu marca y actuamos preventivamente."],
@@ -161,18 +171,11 @@ export default function Home() {
               </div>
             </div>
             <div className="lg:col-span-5 fade-up fade-up-delay-2">
-              <div className="relative">
-                {/* accent frame — solid block offset to the top-right behind the photo */}
-                <div
-                  className="absolute inset-0 translate-x-4 -translate-y-4 sm:translate-x-5 sm:-translate-y-5 bg-[#47353E]"
-                  aria-hidden="true"
-                />
-                <img
-                  src={`${BASE}/assets/oficina.jpg`}
-                  alt="Oficina Intelecta Abogadas"
-                  className="relative w-full aspect-[4/5] object-cover"
-                />
-              </div>
+              <img
+                src={`${BASE}/assets/oficina.jpg`}
+                alt="Oficina Intelecta Abogadas"
+                className="w-full aspect-[4/5] object-cover"
+              />
             </div>
           </div>
         </section>
@@ -343,56 +346,8 @@ export default function Home() {
         </section>
 
         {/* POR QUÉ ELEGIRNOS */}
-        <section className="relative overflow-hidden py-28 lg:py-36 lg:min-h-[720px] bg-[color:var(--solidez)] text-[color:var(--equilibrio)]">
-          {/* Decorative stamp treatment (desktop): the photo and its crisp cutout are
-              rendered at the exact same size/position so the stamp registers
-              pixel-for-pixel over the photo. The photo melts into the plum through an
-              organic (non-circular) blob mask; the cutout stays crisp on top.
-              Wrapped in the same max-w-7xl container as the copy so its left edge
-              lines up with the start of the text. */}
-          <div className="hidden lg:block pointer-events-none absolute inset-0" aria-hidden="true">
-            <div className="relative mx-auto h-full max-w-7xl">
-              <div className="absolute bottom-10 left-6 lg:left-10 w-[32%] max-w-[350px] min-w-[240px] aspect-square">
-                {/* full photo — paper, imprint and real cast shadow — faded via blob mask */}
-                <img
-                  src={`${BASE}/assets/stamp.jpg`}
-                  alt=""
-                  className="select-none absolute inset-0 h-full w-full object-cover"
-                  style={{
-                    WebkitMaskImage: `url(${BASE}/assets/stamp-mask.png)`,
-                    maskImage: `url(${BASE}/assets/stamp-mask.png)`,
-                    WebkitMaskSize: "100% 100%",
-                    maskSize: "100% 100%",
-                    WebkitMaskRepeat: "no-repeat",
-                    maskRepeat: "no-repeat",
-                  }}
-                />
-                {/* subtle plum wash near the top edge so the stamp head blends toward the
-                    text; fades out before the imprint so it stays fully legible */}
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background:
-                      "linear-gradient(to bottom, rgba(70,53,62,0.45) 0%, rgba(70,53,62,0) 42%)",
-                    WebkitMaskImage: `url(${BASE}/assets/stamp-mask.png)`,
-                    maskImage: `url(${BASE}/assets/stamp-mask.png)`,
-                    WebkitMaskSize: "100% 100%",
-                    maskSize: "100% 100%",
-                    WebkitMaskRepeat: "no-repeat",
-                    maskRepeat: "no-repeat",
-                  }}
-                />
-              </div>
-              {/* crisp stamp on top of the fade — same box/size as the photo above */}
-              <img
-                src={`${BASE}/assets/stamp-cutout.png`}
-                alt="Sello de Intelecta Abogadas"
-                className="pointer-events-none select-none absolute bottom-10 left-6 lg:left-10 w-[32%] max-w-[350px] min-w-[240px] drop-shadow-[0_16px_28px_rgba(0,0,0,0.35)]"
-              />
-            </div>
-          </div>
-
-          <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-2 gap-16 items-start">
+        <section className="py-28 lg:py-36 bg-[color:var(--solidez)] text-[color:var(--equilibrio)]">
+          <div className="max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-2 gap-16 items-start">
             <div>
               <div className="text-xs tracking-[0.3em] uppercase text-[color:var(--confianza)] mb-5">
                 ¿Por qué elegirnos?
@@ -405,32 +360,12 @@ export default function Home() {
                 soluciones integrales que protegen el valor de las marcas, empresas y proyectos de
                 nuestros clientes.
               </p>
-              {/* mobile stamp — the actual photo, faded into the plum through the
-                  organic blob mask (kept compact so it doesn't dominate scroll) */}
-              <div
-                className="lg:hidden relative mt-10 -mx-6 aspect-[5/4] overflow-hidden"
-                aria-hidden="true"
-              >
-                <img
-                  src={`${BASE}/assets/stamp.jpg`}
-                  alt=""
-                  className="absolute inset-0 h-full w-full object-cover object-[center_38%]"
-                  style={{
-                    WebkitMaskImage: `url(${BASE}/assets/stamp-mask-mobile.png)`,
-                    maskImage: `url(${BASE}/assets/stamp-mask-mobile.png)`,
-                    WebkitMaskSize: "100% 100%",
-                    maskSize: "100% 100%",
-                    WebkitMaskRepeat: "no-repeat",
-                    maskRepeat: "no-repeat",
-                  }}
-                />
-                {/* crisp stamp on top — same framing so it registers over the photo */}
-                <img
-                  src={`${BASE}/assets/stamp-cutout.png`}
-                  alt="Sello de Intelecta Abogadas"
-                  className="absolute inset-0 h-full w-full object-cover object-[center_38%]"
-                />
-              </div>
+              {/* sello — the new stamp photo, plain square */}
+              <img
+                src={`${BASE}/assets/stamp.jpg`}
+                alt="Sello de Intelecta Abogadas"
+                className="mt-10 w-full max-w-[320px] aspect-square object-cover"
+              />
             </div>
             <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-6">
               {WHY.map((item, i) => (
@@ -740,54 +675,80 @@ export default function Home() {
                 </a>
               </div>
             </div>
-            <form className="lg:col-span-7 grid sm:grid-cols-2 gap-5">
-              <input
-                required
-                type="text"
-                placeholder="Nombre"
-                className="bg-transparent border-b border-[color:var(--equilibrio)]/30 py-3 text-[color:var(--equilibrio)] placeholder:text-[color:var(--equilibrio)]/50 focus:outline-none focus:border-[color:var(--confianza)]"
-              />
-              <input
-                required
-                type="email"
-                placeholder="Email"
-                className="bg-transparent border-b border-[color:var(--equilibrio)]/30 py-3 text-[color:var(--equilibrio)] placeholder:text-[color:var(--equilibrio)]/50 focus:outline-none focus:border-[color:var(--confianza)]"
-              />
-              <input
-                required
-                type="tel"
-                placeholder="Teléfono"
-                className="bg-transparent border-b border-[color:var(--equilibrio)]/30 py-3 text-[color:var(--equilibrio)] placeholder:text-[color:var(--equilibrio)]/50 focus:outline-none focus:border-[color:var(--confianza)]"
-              />
-              <input
-                required
-                type="text"
-                placeholder="Empresa"
-                className="bg-transparent border-b border-[color:var(--equilibrio)]/30 py-3 text-[color:var(--equilibrio)] placeholder:text-[color:var(--equilibrio)]/50 focus:outline-none focus:border-[color:var(--confianza)]"
-              />
-              <textarea
-                required
-                rows={5}
-                placeholder="Tu consulta"
-                className="sm:col-span-2 bg-transparent border-b border-[color:var(--equilibrio)]/30 py-3 text-[color:var(--equilibrio)] placeholder:text-[color:var(--equilibrio)]/50 focus:outline-none focus:border-[color:var(--confianza)] resize-none"
-              />
-              <div className="sm:col-span-2 flex flex-wrap gap-4 mt-4">
-                <button
-                  type="submit"
-                  className="px-7 py-4 bg-[color:var(--confianza)] text-[color:var(--solidez)] hover:bg-[color:var(--equilibrio)] transition-colors text-sm"
-                >
-                  Solicitar presupuesto →
-                </button>
+            {/* mobile: self-contained bordered card (kept as-is) */}
+            <div className="lg:hidden border border-[color:var(--equilibrio)]/15 p-10 flex flex-col justify-center">
+              <h3 className="font-display text-3xl sm:text-4xl text-[color:var(--equilibrio)] leading-tight">
+                Escribinos por WhatsApp y coordinamos tu consulta.
+              </h3>
+              <p className="mt-5 text-[color:var(--equilibrio)]/70 leading-relaxed max-w-lg">
+                Te respondemos a la brevedad para entender tu proyecto y avanzar con la estrategia más
+                adecuada. Sin formularios ni esperas.
+              </p>
+              <div className="mt-10 flex flex-wrap gap-4">
                 <a
                   href={WHATSAPP}
                   target="_blank"
                   rel="noreferrer"
-                  className="px-7 py-4 border border-[color:var(--equilibrio)]/40 text-[color:var(--equilibrio)] hover:bg-[color:var(--equilibrio)] hover:text-[color:var(--solidez)] transition-colors text-sm"
+                  className="group inline-flex items-center gap-3 px-8 py-4 bg-[#25D366] text-white hover:bg-[#1ebe5b] transition-colors"
                 >
-                  Agendar consulta
+                  <WhatsappGlyph />
+                  Agendar consulta{" "}
+                  <span className="transition-transform group-hover:translate-x-1">→</span>
+                </a>
+                <a
+                  href={WHATSAPP}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-3 px-8 py-4 border border-[color:var(--equilibrio)]/40 text-[color:var(--equilibrio)] hover:bg-[color:var(--equilibrio)] hover:text-[color:var(--solidez)] transition-colors"
+                >
+                  Solicitar presupuesto
                 </a>
               </div>
-            </form>
+            </div>
+
+            {/* desktop: no box — a thin rule separates it from the copy */}
+            <div className="hidden lg:flex lg:col-span-7 lg:mt-8 flex-col justify-center border-l border-[color:var(--equilibrio)]/15 pl-12">
+              <h3 className="font-display text-4xl text-[color:var(--equilibrio)] leading-none">
+                Escribinos por WhatsApp
+              </h3>
+              <p className="mt-6 text-[color:var(--equilibrio)]/70 leading-relaxed max-w-lg">
+                Te respondemos a la brevedad para entender tu proyecto y avanzar con la estrategia más
+                adecuada. Sin formularios ni esperas.
+              </p>
+              <div className="mt-7 flex flex-wrap gap-x-8 gap-y-3">
+                {CONTACT_PERKS.map((perk) => (
+                  <span
+                    key={perk}
+                    className="inline-flex items-center gap-2 text-sm text-[color:var(--equilibrio)]/85"
+                  >
+                    <span className="w-5 h-5 rounded-full border border-[color:var(--confianza)]/60 text-[color:var(--confianza)] flex items-center justify-center text-[11px]">
+                      ✓
+                    </span>
+                    {perk}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-9 flex flex-wrap gap-4">
+                <a
+                  href={WHATSAPP}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group inline-flex items-center gap-3 px-8 py-4 bg-[#25D366] text-white hover:bg-[#1ebe5b] transition-colors"
+                >
+                  <WhatsappGlyph />
+                  Agendar consulta{" "}
+                  <span className="transition-transform group-hover:translate-x-1">→</span>
+                </a>
+                <a
+                  href={WHATSAPP}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-3 px-8 py-4 border border-[color:var(--equilibrio)]/40 text-[color:var(--equilibrio)] hover:bg-[color:var(--equilibrio)] hover:text-[color:var(--solidez)] transition-colors"
+                >
+                  Solicitar presupuesto
+                </a>
+              </div>
+            </div>
           </div>
         </section>
       </main>
